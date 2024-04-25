@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +27,7 @@ public class Trainer {
     private String gender;
     private String dob;
     private String email;
-    private String image;
+    private byte[] image; // Changed to byte[] to store image content in the database
     private String phone;
     @Column(name = "`rank`") // Enclosing rank in backticks to avoid SQL syntax error
     private int rank; //3 for 3 star. 4 for 4 star, 5 for 5 star
@@ -49,7 +51,7 @@ public class Trainer {
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Review> reviews;
     
-    public Trainer(String name, int age, String gender, String dob, String email, String image, String phone, int rank,
+    public Trainer(String name, int age, String gender, String dob, String email, byte[] image, String phone, int rank,
             String trainerSince) {
         this.name = name;
         this.age = age;
@@ -117,13 +119,14 @@ public class Trainer {
         this.name = name;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
+
 
     public List<Review> getReviews() {
         return reviews;
@@ -136,9 +139,7 @@ public class Trainer {
     @Override
     public String toString() {
         return "Trainer [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", dob=" + dob
-                + ", email=" + email + ", image=" + image + ", phone=" + phone + ", rank=" + rank + ", trainerSince="
+                + ", email=" + email + ", phone=" + phone + ", rank=" + rank + ", trainerSince="
                 + trainerSince + ", plans=" + plans + "]";
     }
-
-
 }
